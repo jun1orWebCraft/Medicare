@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practitioner Access | MediCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="auth-page doctor-theme">
+    <div class="auth-wrapper split-screen">
+        <div class="brand-side">
+            <div class="brand-content">
+                <div class="main-logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="MediCare Logo" class="floating-logo">
+            </div>
+                <h1>Clinical <span class="highlight-blue">Intelligence</span></h1>
+                <p>Streamlined patient management, digital prescriptions, and real-time diagnostic oversight.</p>
+                
+                <div class="doctor-features">
+                    <div class="d-feat">
+                        <span class="feat-icon">⚡</span>
+                        <p>Instant Patient History</p>
+                    </div>
+                    <div class="d-feat">
+                        <span class="feat-icon">🛡️</span>
+                        <p>HIPAA Compliant Data</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-side">
+            <div class="auth-card">
+                <div class="form-header">
+                    <h2>Practitioner Login</h2>
+                    <p>Enter your professional credentials</p>
+                </div>
+
+                {% if error %}
+                <div class="alert-box doctor-error">
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                <form method="POST" class="modern-form">
+                    <div class="input-wrapper">
+                        <label>Professional Email</label>
+                        <input type="email" name="email" placeholder="dr.smith@medicare.com" required>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <div class="label-flex">
+                            <label>Secure Password</label>
+                            <a href="#" class="forgot-link">Forgot?</a>
+                        </div>
+                        <input type="password" name="password" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn-doctor-submit">Authorize & Enter</button>
+                </form>
+
+                <p class="register-link">
+    Don’t have an account? 
+    <a href="/register/doctor" class="btn-register">Register as Practitioner</a>
+</p>
+                <div class="form-footer">
+                    <a href="/login" class="back-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                        Role Selection
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Access | MediCare Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="role-select-page">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="role-select-wrapper">
+        <div class="role-header">
+            <div class="main-logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="MediCare Logo" class="floating-logo">
+            </div>
+            <h1>Access <span class="highlight">Intelligence</span></h1>
+            <p>Select your specialized portal to begin</p>
+        </div>
+
+        <div class="role-grid">
+            <a href="/login/patient" class="role-card patient">
+                <div class="glass-sticker">
+                    <div class="sticker-inner"></div>
+                </div>
+                <h3>Patient</h3>
+                <p>Personal health dashboard</p>
+                <div class="card-glow"></div>
+            </a>
+
+            <a href="/login/doctor" class="role-card doctor">
+                <div class="glass-sticker">
+                    <div class="sticker-inner"></div>
+                </div>
+                <h3>Doctor</h3>
+                <p>Clinical management</p>
+                <div class="card-glow"></div>
+            </a>
+
+            <a href="/login/assistant" class="role-card assistant">
+                <div class="glass-sticker">
+                    <div class="sticker-inner"></div>
+                </div>
+                <h3>Assistant</h3>
+                <p>Operations & support</p>
+                <div class="card-glow"></div>
+            </a>
+
+            <a href="/login/admin" class="role-card admin">
+                <div class="glass-sticker">
+                    <div class="sticker-inner"></div>
+                </div>
+                <h3>Admin</h3>
+                <p>System configuration</p>
+                <div class="card-glow"></div>
+            </a>
+        </div>
+
+        <div class="role-footer">
+            <p>Need access? <a href="/register/patient" class="register-link">Create Account</a></p>
+            <a href="/" class="btn-back-home">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

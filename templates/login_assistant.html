@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Assistant - MediCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="register-page">
+    <div class="auth-wrapper split-screen">
+        <div class="brand-side assistant-gradient">
+            <div class="brand-content">
+                <div class="brand-icon">📋</div>
+                <h1>Add New<br><span>Assistant</span></h1>
+                <p>Register administrative staff.</p>
+            </div>
+        </div>
+        <div class="form-side">
+            <div class="auth-form-container">
+                <div class="form-header">
+                    <h2>Assistant Registration</h2>
+                    <p>Add staff member</p>
+                </div>
+                {% if error %}
+                <div class="alert alert-error">{{ error }}</div>
+                {% endif %}
+                <form method="POST" class="auth-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" placeholder="Jane Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" placeholder="assistant@hospital.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="••••••••" required>
+                    </div>
+                    <p class="register-link">
+    Don’t have an account? 
+    <a href="/register/assistant" class="btn-register">Register as Assistant</a>
+</p>
+                </form>
+                <div class="form-footer">
+                    <a href="/admin/dashboard">← Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

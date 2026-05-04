@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical History | {{ patient_info.name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dashboard-page assistant-theme">
+    <div class="dashboard-container">
+        <nav class="sidebar assistant-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">🏥 MediCare <small>Ops</small></div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="nav-item"><a href="/assistant/dashboard"><div class="nav-glass-sticker">📊</div><span>Ops Center</span></a></li>
+                <li class="nav-item active"><a href="/assistant/patients"><div class="nav-glass-sticker">👥</div><span>Patient Intake</span></a></li>
+                <li class="nav-item"><a href="/assistant/appointments"><div class="nav-glass-sticker">📅</div><span>Master Schedule</span></a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-card-glass assistant-card">
+                    <div class="user-avatar assistant-avatar">A</div>
+                    <div class="user-meta">
+                        <p class="u-name">Coordinator</p>
+                        <span class="u-status">Accessing Records</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="header-content">
+                    <div class="breadcrumb">Patient Directory / Clinical History</div>
+                    <h1>{{ patient_info.name if patient_info else 'Patient' }} <span class="highlight">Records</span></h1>
+                </div>
+                <div class="header-actions">
+                    <button onclick="window.print()" class="btn-glass-sm action-violet">
+                        <span>🖨️</span> Print Master Archive
+                    </button>
+                </div>
+            </header>
+
+            <div class="timeline-container" id="printArea">
+                {% for record in records %}
+                <div class="clinical-event-card glass-morph">
+                    <div class="event-sidebar">
+                        <div class="event-date-box">
+                            <span class="m-text">{{ record.created_at.strftime('%b') }}</span>
+                            <span class="d-text">{{ record.created_at.strftime('%d') }}</span>
+                            <span class="y-text">{{ record.created_at.strftime('%Y') }}</span>
+                        </div>
+                        <div class="vertical-line"></div>
+                    </div>
+
+                    <div class="event-content">
+                        <div class="event-header">
+                            <div class="doctor-meta">
+                                <span class="dr-tag">Attending Physician</span>
+                                <h3>Dr. {{ record.doctor_name }}</h3>
+                                <span class="spec-label">{{ record.specialization }}</span>
+                            </div>
+                            <a href="/assistant/records/print/{{ record.id }}" class="btn-icon-print" target="_blank" title="Print Entry">
+                                ⎙
+                            </a>
+                        </div>
+
+                        <div class="clinical-details-grid">
+                            <div class="detail-block diagnosis">
+                                <label>Primary Diagnosis</label>
+                                <p>{{ record.diagnosis }}</p>
+                            </div>
+                            <div class="detail-block prescription">
+                                <label>Prescription / Regimen</label>
+                                <p class="mono-text">{{ record.prescription }}</p>
+                            </div>
+                        </div>
+
+                        {% if record.notes %}
+                        <div class="detail-block notes">
+                            <label>Physician's Clinical Notes</label>
+                            <div class="notes-content">
+                                {{ record.notes }}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="empty-state-glass">
+                    <p>No clinical records found for this patient.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>

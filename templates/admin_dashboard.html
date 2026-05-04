@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systems Control | MediCare Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dashboard-page admin-theme">
+    <div class="dashboard-container">
+        <nav class="sidebar admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">💠</span>
+                    <span>MediCare <small>Admin</small></span>
+                </div>
+                <div class="role-badge admin-badge">System Root</div>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li class="nav-item active">
+                    <a href="/admin/dashboard">
+                        <div class="nav-glass-sticker">📊</div>
+                        <span>Control Deck</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/users">
+                        <div class="nav-glass-sticker">👥</div>
+                        <span>User Directory</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/register/doctor">
+                        <div class="nav-glass-sticker">👨‍⚕️</div>
+                        <span>Onboard Doctor</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/register/assistant">
+                        <div class="nav-glass-sticker">📋</div>
+                        <span>Add Assistant</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/logs">
+                        <div class="nav-glass-sticker">📝</div>
+                        <span>Audit Trail</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="user-card-glass admin-card">
+                    <div class="user-avatar admin-avatar">A</div>
+                    <div class="user-meta">
+                        <p class="u-name">{{ user_name }}</p>
+                        <span class="u-status">Superuser Access</span>
+                    </div>
+                </div>
+                <a href="/logout" class="btn-logout-glass">🔒 Terminate Session</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="welcome-text">
+                    <h1>Infrastructure <span class="highlight">Overview</span></h1>
+                    <p>Real-time system metrics and personnel management.</p>
+                </div>
+                <div class="system-time-glass">
+                    <span class="pulse-dot"></span>
+                    <span id="currentDateTime"></span>
+                </div>
+            </header>
+
+            <div class="stats-grid admin-grid">
+                <div class="stat-card glass-morph admin-stat">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrap blue">👥</div>
+                        <span class="stat-trend">+12 New</span>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_users }}</div>
+                        <div class="stat-label">Network Users</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-morph admin-stat">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrap purple">👨‍⚕️</div>
+                        <span class="stat-trend">Active</span>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_doctors }}</div>
+                        <div class="stat-label">Medical Staff</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-morph admin-stat">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrap green">👤</div>
+                        <span class="stat-trend">Secured</span>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_patients }}</div>
+                        <div class="stat-label">Total Patients</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-morph admin-stat">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrap orange">📅</div>
+                        <span class="stat-trend">Today</span>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_appointments }}</div>
+                        <div class="stat-label">Appointments</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-morph admin-stat">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrap cyan">📄</div>
+                        <span class="stat-trend">Encrypted</span>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_records }}</div>
+                        <div class="stat-label">Clinical Data</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-morph admin-stat">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrap red">📝</div>
+                        <span class="stat-trend">Healthy</span>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_logs }}</div>
+                        <div class="stat-label">Audit Logs</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions-section">
+                <h2>Management <span class="highlight">Shortcuts</span></h2>
+                <div class="action-grid-admin">
+                    <a href="/admin/users" class="admin-action-card">
+                        <div class="action-icon">📂</div>
+                        <div class="action-desc">
+                            <h3>Manage Directory</h3>
+                            <p>Edit, suspend, or delete user accounts.</p>
+                        </div>
+                    </a>
+                    <a href="/register/doctor" class="admin-action-card highlight-card">
+                        <div class="action-icon">💉</div>
+                        <div class="action-desc">
+                            <h3>Provision Doctor</h3>
+                            <p>Register new clinical professionals.</p>
+                        </div>
+                    </a>
+                    <a href="/admin/logs" class="admin-action-card">
+                        <div class="action-icon">🔍</div>
+                        <div class="action-desc">
+                            <h3>System Audits</h3>
+                            <p>Monitor security and access patterns.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+</html>

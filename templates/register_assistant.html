@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provision Assistant | MediCare Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="auth-page assistant-theme">
+    <div class="auth-wrapper split-screen">
+        <div class="brand-side assistant-vibe">
+            <div class="brand-content">
+                <div class="glass-sticker-large">
+                    <div class="sticker-inner">📋</div>
+                </div>
+                <h1>Staff <br><span class="highlight">Provisioning</span></h1>
+                <p>Onboard new administrative personnel to the MediCare operational network.</p>
+                
+                <div class="feature-pills">
+                    <span class="pill">Full Access</span>
+                    <span class="pill">Scheduling</span>
+                    <span class="pill">Records</span>
+                </div>
+            </div>
+            <div class="bg-glow"></div>
+        </div>
+
+        <div class="form-side">
+            <div class="auth-form-container glass-card">
+                <div class="form-header">
+                    <h2>Assistant Identity</h2>
+                    <p>Create a secure access profile</p>
+                </div>
+
+                {% if error %}
+                <div class="alert-glass alert-error">
+                    <span class="alert-icon">⚠️</span>
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                <form method="POST" class="auth-form-modern">
+                    <div class="input-group">
+                        <label>Legal Full Name</label>
+                        <div class="input-wrapper">
+                            <input type="text" name="name" placeholder="e.g. Sarah Jenkins" required>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Institutional Email</label>
+                        <div class="input-wrapper">
+                            <input type="email" name="email" placeholder="s.jenkins@medicare.com" required>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Secure Credentials</label>
+                        <div class="input-wrapper">
+                            <input type="password" name="password" placeholder="••••••••" required>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary-vibrant">
+                        Authorize & Register
+                        <span class="btn-shine"></span>
+                    </button>
+                </form>
+
+                <div class="form-footer">
+                    <a href="/admin/dashboard" class="back-link">
+                        <span class="arrow">←</span> Return to Admin Center
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

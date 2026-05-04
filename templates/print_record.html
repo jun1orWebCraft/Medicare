@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Report - {{ record.patient_name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --border-light: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            line-height: 1.5;
+            background: #f1f5f9; /* Soft background for screen, white for print */
+            padding: 40px 20px;
+        }
+
+        .print-container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            position: relative;
+            border-top: 8px solid var(--primary-blue);
+        }
+
+        /* Header Layout */
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .hospital-branding h2 {
+            color: var(--primary-blue);
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .hospital-branding p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .report-title-box {
+            text-align: right;
+        }
+
+        .report-title-box h1 {
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        /* Demographics Grid */
+        .patient-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .info-item { display: flex; font-size: 13px; }
+        .info-label { font-weight: 700; width: 100px; color: var(--text-muted); }
+        .info-value { color: var(--text-main); }
+
+        /* Medical Content Sections */
+        .medical-section {
+            margin-bottom: 25px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+        }
+
+        .section-header h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .content-box {
+            padding: 15px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .prescription-box {
+            background: #f1f5f9;
+            border-left: 4px solid var(--primary-blue);
+            font-family: 'Courier New', Courier, monospace; /* Rx vibe */
+            font-weight: bold;
+        }
+
+        /* Verification Footer */
+        .footer-sig {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 12px;
+        }
+
+        .signature-line {
+            width: 200px;
+            border-top: 1px solid black;
+            text-align: center;
+            padding-top: 5px;
+        }
+
+        /* Print Specifics */
+        @media print {
+            body { background: white; padding: 0; }
+            .print-container { box-shadow: none; max-width: 100%; border: none; }
+            .no-print { display: none; }
+            .content-box { border: 1px solid #ccc; }
+        }
+
+        .floating-actions {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 100px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .btn-print { background: var(--primary-blue); color: white; }
+        .btn-close { background: white; color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <div class="print-container">
+        <div class="report-header">
+            <div class="hospital-branding">
+                <h2>MEDICARE HEALTH</h2>
+                <p>Digital Health Network | License #MC-9920</p>
+                <p>123 Healthcare Ave, Medical Dist. | (555) 012-3456</p>
+            </div>
+            <div class="report-title-box">
+                <h1>Clinical Summary</h1>
+                <p style="font-size: 11px;">Record ID: {{ record.id if record.id else 'MED-00293' }}</p>
+                <p style="font-size: 11px;">Date: {{ now().strftime('%Y-%m-%d') }}</p>
+            </div>
+        </div>
+
+        {% if record %}
+        <div class="patient-info-grid">
+            <div class="info-item">
+                <span class="info-label">Patient:</span>
+                <span class="info-value">{{ record.patient_name }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Physician:</span>
+                <span class="info-value">Dr. {{ record.doctor_name }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">DOB/Age:</span>
+                <span class="info-value">{{ record.age }} Years</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Dept:</span>
+                <span class="info-value">{{ record.specialization }}</span>
+            </div>
+        </div>
+
+        <div class="medical-section">
+            <div class="section-header">
+                <h3>Primary Diagnosis</h3>
+            </div>
+            <div class="content-box">
+                {{ record.diagnosis }}
+            </div>
+        </div>
+
+        <div class="medical-section">
+            <div class="section-header">
+                <h3>Rx / Prescription</h3>
+            </div>
+            <div class="content-box prescription-box">
+                {{ record.prescription }}
+            </div>
+        </div>
+
+        {% if record.notes %}
+        <div class="medical-section">
+            <div class="section-header">
+                <h3>Physician Notes</h3>
+            </div>
+            <div class="content-box" style="font-style: italic; color: #475569;">
+                {{ record.notes }}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="footer-sig">
+            <div class="verif">
+                <p>Electronically Verified</p>
+                <p>Auth Code: <span style="font-family: monospace;">{{ range(1000, 9999) | random }}-XJ2</span></p>
+            </div>
+            <div class="signature-line">
+                Physician Signature
+            </div>
+        </div>
+
+        {% else %}
+        <div style="text-align: center; padding: 50px;">
+            <p>Error: Clinical data not accessible.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="floating-actions no-print">
+        <button onclick="window.print()" class="btn btn-print">🖨️ Generate Printout</button>
+        <button onclick="window.close()" class="btn btn-close">Dismiss</button>
+    </div>
+
+</body>
+</html>

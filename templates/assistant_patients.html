@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Intake Directory | MediCare Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dashboard-page assistant-theme">
+    <div class="dashboard-container">
+        <nav class="sidebar assistant-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">🏥 MediCare <small>Ops</small></div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="nav-item"><a href="/assistant/dashboard"><div class="nav-glass-sticker">📊</div><span>Ops Center</span></a></li>
+                <li class="nav-item active"><a href="/assistant/patients"><div class="nav-glass-sticker">👥</div><span>Patient Intake</span></a></li>
+                <li class="nav-item"><a href="/assistant/appointments"><div class="nav-glass-sticker">📅</div><span>Master Schedule</span></a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-card-glass assistant-card">
+                    <div class="user-avatar assistant-avatar">A</div>
+                    <div class="user-meta">
+                        <p class="u-name">Coordinator</p>
+                        <span class="u-status">Front Desk Active</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="header-content">
+                    <h1>Patient <span class="highlight">Intake</span></h1>
+                    <p>Access patient demographics and comprehensive medical histories.</p>
+                </div>
+                <div class="search-wrapper-glass">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" placeholder="Find a patient by name or phone...">
+                </div>
+            </header>
+
+            <div class="content-card-glass">
+                <div class="table-responsive">
+                    <table class="pro-data-table" id="patientTable">
+                        <thead>
+                            <tr>
+                                <th>Patient Identity</th>
+                                <th>Demographics</th>
+                                <th>Primary Contact</th>
+                                <th>Residential Address</th>
+                                <th class="text-right">Medical Records</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for patient in patients %}
+                            <tr class="glass-row searchable-row">
+                                <td>
+                                    <div class="user-identity-cell">
+                                        <div class="u-avatar-sm patient-bg">{{ patient.name[0] }}</div>
+                                        <div class="u-info">
+                                            <span class="u-name-main">{{ patient.name }}</span>
+                                            <span class="u-email-sub">{{ patient.email }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="demo-info">
+                                        <span class="age-tag">{{ patient.age or '??' }} yrs</span>
+                                        <span class="gender-sub">{{ patient.gender or 'Not Specified' }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="contact-info">
+                                        <span class="phone-link">📞 {{ patient.phone or 'No Phone' }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="address-snippet" title="{{ patient.address }}">
+                                        {{ patient.address[:40] + '...' if patient.address and patient.address|length > 40 else patient.address or 'No address on file' }}
+                                    </p>
+                                </td>
+                                <td class="text-right">
+                                    <a href="/assistant/records/{{ patient.id }}" class="btn-glass-sm action-violet">
+                                        View History
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchValue = this.value.toLowerCase();
+            const rows = document.querySelectorAll('.searchable-row');
+            
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(searchValue) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Command | MediCare Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dashboard-page doctor-theme">
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='med-shield.svg') }}" alt="" class="nav-logo">
+                    <span>MediCare <small>Pro</small></span>
+                </div>
+                <div class="role-badge doctor-badge">Surgeon</div>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li class="nav-item active">
+                    <a href="/doctor/dashboard">
+                        <div class="nav-glass-sticker">🩺</div>
+                        <span>Overview</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/doctor/patients">
+                        <div class="nav-glass-sticker">👥</div>
+                        <span>Patient Deck</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/doctor/appointments">
+                        <div class="nav-glass-sticker">📅</div>
+                        <span>Schedule</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="user-card-glass">
+                    <div class="avatar-ring physician-glow">
+                        <div class="user-avatar">Dr</div>
+                    </div>
+                    <div class="user-meta">
+                        <p class="u-name">{{ user_name }}</p>
+                        <span class="u-status">Attending Physician</span>
+                    </div>
+                </div>
+                <a href="/logout" class="btn-logout-glass">🚪 Termination Session</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="welcome-text">
+                    <h1>Clinical <span class="highlight">Intelligence</span></h1>
+                    <p>Welcome back, Dr. {{ user_name }}. Your department metrics are updated.</p>
+                </div>
+                <div class="time-display-glass">
+                    <span id="current-time">09:41 AM</span>
+                </div>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card glass-morph doctor-card">
+                    <div class="stat-sticker-circle blue-glow">👥</div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_patients }}</div>
+                        <div class="stat-label">Active Patients</div>
+                    </div>
+                    <div class="stat-trend positive">+4%</div>
+                </div>
+
+                <div class="stat-card glass-morph doctor-card">
+                    <div class="stat-sticker-circle purple-glow">📅</div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_appointments }}</div>
+                        <div class="stat-label">Daily Rounds</div>
+                    </div>
+                    <div class="stat-trend">On Track</div>
+                </div>
+
+                <div class="stat-card glass-morph doctor-card">
+                    <div class="stat-sticker-circle cyan-glow">📄</div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_records }}</div>
+                        <div class="stat-label">Clinical Records</div>
+                    </div>
+                    <div class="stat-trend negative">2 Pending</div>
+                </div>
+            </div>
+
+            <div class="quick-actions-section">
+                <h2>Clinical Actions</h2>
+                <div class="action-grid-doctor">
+                    <a href="/doctor/patients" class="action-tile-pro">
+                        <div class="tile-header">
+                            <span class="tile-icon-glass">📂</span>
+                            <span class="tile-tag">Review</span>
+                        </div>
+                        <h3>Patient Case Files</h3>
+                        <p>Analyze medical histories and diagnostic updates.</p>
+                    </a>
+                    
+                    <a href="/doctor/appointments" class="action-tile-pro accent-tile-pro">
+                        <div class="tile-header">
+                            <span class="tile-icon-glass">⚡</span>
+                            <span class="tile-tag">Urgent</span>
+                        </div>
+                        <h3>Manage Rounds</h3>
+                        <p>Coordinate upcoming patient consultations and surgeries.</p>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

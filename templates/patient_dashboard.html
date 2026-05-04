@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Insights | MediCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dashboard-page patient-theme">
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='logo-white.svg') }}" alt="MediCare" class="nav-logo">
+                    <span>MediCare</span>
+                </div>
+            </div>
+          <ul class="sidebar-nav">
+
+                <li class="nav-item"><a href="/patient/dashboard"><span class="nav-icon">📊</span><span>Dashboard</span></a></li>
+
+                <li class="nav-item"><a href="/patient/records"><span class="nav-icon">📄</span><span>My Records</span></a></li>
+
+                <li class="nav-item active"><a href="/patient/appointments"><span class="nav-icon">📅</span><span>My Appointments</span></a></li>
+
+                <li class="nav-item"><a href="/patient/appointments/book"><span class="nav-icon">➕</span><span>Book Appointment</span></a></li>
+
+            </ul>
+            <div class="sidebar-user">
+                <div class="user-card-glass">
+                    <div class="avatar-ring">
+                        <div class="user-avatar">{{ user_name[0] }}</div>
+                    </div>
+                    <div class="user-meta">
+                        <p class="u-name">{{ user_name }}</p>
+                        <span class="u-status">Patient Account</span>
+                    </div>
+                </div>
+                <a href="/logout" class="btn-logout-glass">Sign Out</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="welcome-text">
+                    <h1>Welcome back, <span class="highlight">{{ user_name }}</span></h1>
+                    <p>Here is a summary of your health data.</p>
+                </div>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card glass-morph">
+                    <div class="stat-sticker record-sticker">📄</div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_records }}</div>
+                        <div class="stat-label">Health Records</div>
+                    </div>
+                    <div class="card-accent-line"></div>
+                </div>
+
+                <div class="stat-card glass-morph">
+                    <div class="stat-sticker schedule-sticker">📅</div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_appointments }}</div>
+                        <div class="stat-label">Total Visits</div>
+                    </div>
+                    <div class="card-accent-line"></div>
+                </div>
+
+                <div class="stat-card glass-morph highlight-card">
+                    <div class="stat-sticker pending-sticker">⏳</div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.pending_appointments }}</div>
+                        <div class="stat-label">Pending Review</div>
+                    </div>
+                    <div class="card-accent-line"></div>
+                </div>
+            </div>
+
+            <div class="quick-actions-section">
+                <h2>Quick Actions</h2>
+                <div class="action-grid">
+                    <a href="/patient/records" class="action-tile">
+                        <div class="tile-icon">📂</div>
+                        <div class="tile-content">
+                            <h3>Access Vault</h3>
+                            <p>Download your medical documents and history.</p>
+                        </div>
+                    </a>
+                    <a href="/patient/appointments/book" class="action-tile accent-tile">
+                        <div class="tile-icon">✨</div>
+                        <div class="tile-content">
+                            <h3>Book Appointment</h3>
+                            <p>Connect with a medical specialist today.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

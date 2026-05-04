@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Audit | MediCare Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dashboard-page admin-theme">
+    <div class="dashboard-container">
+        <nav class="sidebar admin-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">🏥 MediCare <small>Admin</small></div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="nav-item"><a href="/admin/dashboard"><div class="nav-glass-sticker">📊</div><span>Control Deck</span></a></li>
+                <li class="nav-item"><a href="/admin/users"><div class="nav-glass-sticker">👥</div><span>User Directory</span></a></li>
+                <li class="nav-item"><a href="/register/doctor"><div class="nav-glass-sticker">👨‍⚕️</div><span>Onboard Doctor</span></a></li>
+                <li class="nav-item"><a href="/register/assistant"><div class="nav-glass-sticker">📋</div><span>Add Assistant</span></a></li>
+                <li class="nav-item active"><a href="/admin/logs"><div class="nav-glass-sticker">📝</div><span>Audit Trail</span></a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-card-glass admin-card">
+                    <div class="user-avatar admin-avatar">A</div>
+                    <div class="user-meta">
+                        <p class="u-name">Administrator</p>
+                        <span class="u-status">Security Level 1</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="header-content">
+                    <h1>Security <span class="highlight">Audit Trail</span></h1>
+                    <p>Immutable ledger of system activities and data access.</p>
+                </div>
+                <div class="log-actions">
+                    <button class="btn-glass-sm" onclick="window.print()">📥 Export PDF</button>
+                </div>
+            </header>
+
+            <div class="content-card-glass">
+                <div class="table-responsive">
+                    <table class="pro-data-table log-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Identity</th>
+                                <th>Clinical Event</th>
+                                <th>Network Origin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in logs %}
+                            <tr class="glass-row">
+                                <td class="timestamp-cell">
+                                    <span class="mono">{{ log.timestamp.strftime('%Y-%m-%d') if log.timestamp }}</span>
+                                    <span class="mono secondary">{{ log.timestamp.strftime('%H:%M:%S') if log.timestamp }}</span>
+                                </td>
+                                <td>
+                                    <div class="log-user-info">
+                                        <span class="log-name">{{ log.name }}</span>
+                                        <span class="log-email">{{ log.email }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="action-tag {% if 'delete' in log.action.lower() %}danger{% elif 'login' in log.action.lower() %}success{% else %}info{% endif %}">
+                                        {{ log.action }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <code class="ip-address">{{ log.ip_address or '0.0.0.0' }}</code>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

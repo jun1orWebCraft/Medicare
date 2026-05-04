@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Schedule | MediCare Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dashboard-page doctor-theme">
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">🏥 MediCare <small>Pro</small></div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="nav-item"><a href="/doctor/dashboard"><div class="nav-glass-sticker">📊</div><span>Overview</span></a></li>
+                <li class="nav-item"><a href="/doctor/patients"><div class="nav-glass-sticker">👥</div><span>Patient Deck</span></a></li>
+                <li class="nav-item active"><a href="/doctor/appointments"><div class="nav-glass-sticker">📅</div><span>Schedule</span></a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-card-glass">
+                    <div class="user-avatar">Dr</div>
+                    <div class="user-meta">
+                        <p class="u-name">Physician</p>
+                        <span class="u-status">On Duty</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="header-content">
+                    <h1>Appointment <span class="highlight">Intelligence</span></h1>
+                    <p>Review, approve, and finalize patient consultations.</p>
+                </div>
+                <div class="agenda-summary-glass">
+                    <span class="agenda-label">Today's Load:</span>
+                    <span class="agenda-count">{{ appointments|length }} Sessions</span>
+                </div>
+            </header>
+
+            <div class="schedule-container">
+                <div class="glass-table-wrapper">
+                    <table class="pro-data-table">
+                        <thead>
+                            <tr>
+                                <th>Patient Identity</th>
+                                <th>Schedule Reference</th>
+                                <th>Reason for Visit</th>
+                                <th>Status</th>
+                                <th class="text-right">Triage Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for appt in appointments %}
+                            <tr class="glass-row">
+                                <td class="patient-identity">
+                                    <div class="p-avatar-sm">{{ appt.patient_name[0] }}</div>
+                                    <span class="p-name">{{ appt.patient_name }}</span>
+                                </td>
+                                <td>
+                                    <div class="time-block">
+                                        <span class="d-text">{{ appt.appointment_date }}</span>
+                                        <span class="t-text">{{ appt.appointment_time }}</span>
+                                    </div>
+                                </td>
+                                <td class="reason-cell">
+                                    <p class="reason-text">{{ appt.reason or 'Routine Check-up' }}</p>
+                                </td>
+                                <td>
+                                    <span class="status-pill pill-{{ appt.status }}">
+                                        {{ appt.status }}
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <div class="action-group">
+                                        {% if appt.status == 'pending' %}
+                                        <a href="/doctor/appointments/update/{{ appt.id }}/approved" class="btn-triage approve">
+                                            <span>✓</span> Confirm
+                                        </a>
+                                        <a href="/doctor/appointments/update/{{ appt.id }}/rejected" class="btn-triage reject">
+                                            <span>✕</span>
+                                        </a>
+                                        {% elif appt.status == 'approved' %}
+                                        <a href="/doctor/appointments/update/{{ appt.id }}/completed" class="btn-triage complete">
+                                            ⚡ Complete Session
+                                        </a>
+                                        {% else %}
+                                        <span class="finalized-text">Session Archived</span>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

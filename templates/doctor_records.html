@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Records | {{ patient_info.name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dashboard-page doctor-theme">
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">🏥 MediCare <small>Pro</small></div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="nav-item"><a href="/doctor/dashboard"><div class="nav-glass-sticker">📊</div><span>Overview</span></a></li>
+                <li class="nav-item active"><a href="/doctor/patients"><div class="nav-glass-sticker">👥</div><span>Patient Deck</span></a></li>
+                <li class="nav-item"><a href="/doctor/appointments"><div class="nav-glass-sticker">📅</div><span>Schedule</span></a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-card-glass">
+                    <div class="user-avatar">Dr</div>
+                    <div class="user-meta">
+                        <p class="u-name">Physician</p>
+                        <span class="u-status">Authenticated</span>
+                    </div>
+                </div>
+                <a href="/logout" class="btn-logout-glass">Logout</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="header-content">
+                    <div class="breadcrumb">Patient Deck / History</div>
+                    <h1>Chart: <span class="highlight">{{ patient_info.name if patient_info else 'Anonymous' }}</span></h1>
+                </div>
+                <div class="patient-id-badge">ID: #{{ patient_info.id if patient_info else '000' }}</div>
+            </header>
+
+            <div class="clinical-entry-card glass-morph">
+                <div class="card-header-pro">
+                    <span class="pulse-icon"></span>
+                    <h2>New Clinical Entry</h2>
+                </div>
+                
+                <form method="POST" action="/doctor/records/add/{{ patient_info.id if patient_info else 0 }}" class="modern-entry-form">
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Primary Diagnosis</label>
+                            <textarea name="diagnosis" required placeholder="Observations and ICD-10 diagnosis..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Prescription Plan</label>
+                            <textarea name="prescription" required placeholder="Dosage, frequency, and duration..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Clinical Notes</label>
+                            <textarea name="notes" placeholder="Internal observations (private)..."></textarea>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-submit-pro">Finalize & Log Record</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="history-section">
+                <div class="section-header-flex">
+                    <h2>Historical <span class="highlight">Timeline</span></h2>
+                    <span class="record-count">{{ records|length }} Records found</span>
+                </div>
+
+                <div class="clinical-timeline">
+                    {% for record in records %}
+                    <div class="timeline-entry">
+                        <div class="entry-marker">
+                            <div class="marker-dot"></div>
+                            <div class="marker-line"></div>
+                        </div>
+                        
+                        <div class="entry-content-glass">
+                            <div class="entry-header">
+                                <span class="entry-date">{{ record.created_at.strftime('%b %d, %Y • %H:%M') if record.created_at else 'N/A' }}</span>
+                                <span class="entry-dr">Verified by: Dr. {{ record.doctor_name }}</span>
+                            </div>
+                            
+                            <div class="entry-body-grid">
+                                <div class="data-block">
+                                    <label>Diagnosis</label>
+                                    <p>{{ record.diagnosis }}</p>
+                                </div>
+                                <div class="data-block prescription-highlight">
+                                    <label>Rx Issued</label>
+                                    <p>{{ record.prescription }}</p>
+                                </div>
+                            </div>
+
+                            {% if record.notes %}
+                            <div class="entry-footer-notes">
+                                <strong>Physician Notes:</strong> {{ record.notes }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

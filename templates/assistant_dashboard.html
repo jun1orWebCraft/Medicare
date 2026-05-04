@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ops Center | MediCare Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dashboard-page assistant-theme">
+    <div class="dashboard-container">
+        <nav class="sidebar assistant-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <span>MediCare <small>Ops</small></span>
+                </div>
+                <div class="role-badge assistant-badge">Operations</div>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li class="nav-item active">
+                    <a href="/assistant/dashboard">
+                        <div class="nav-glass-sticker">📊</div>
+                        <span>Ops Center</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/assistant/patients">
+                        <div class="nav-glass-sticker">👥</div>
+                        <span>Patient Intake</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/assistant/appointments">
+                        <div class="nav-glass-sticker">📅</div>
+                        <span>Master Schedule</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="user-card-glass assistant-card">
+                    <div class="user-avatar assistant-avatar">A</div>
+                    <div class="user-meta">
+                        <p class="u-name">{{ user_name }}</p>
+                        <span class="u-status">Front Desk Active</span>
+                    </div>
+                </div>
+                <a href="/logout" class="btn-logout-glass">🚪 Sign Out</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="welcome-text">
+                    <h1>Operational <span class="highlight">Pulse</span></h1>
+                    <p>Welcome back, {{ user_name }}. Here is today's clinic flow.</p>
+                </div>
+                <div class="system-time-glass">
+                    <span class="pulse-dot violet"></span>
+                    <span id="currentDateTime"></span>
+                </div>
+            </header>
+
+            <div class="stats-grid assistant-grid">
+                <div class="stat-card glass-morph assistant-stat">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrap green">👥</div>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_patients }}</div>
+                        <div class="stat-label">Registered Patients</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-morph assistant-stat">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrap blue">📅</div>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_appointments }}</div>
+                        <div class="stat-label">Global Bookings</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-morph assistant-stat highlight-violet">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrap violet-bg">⏳</div>
+                        <span class="stat-trend pulse">Action Required</span>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.pending_appointments }}</div>
+                        <div class="stat-label">Pending Reviews</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-morph assistant-stat">
+                    <div class="stat-header">
+                        <div class="stat-icon-wrap cyan">📄</div>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">{{ stats.total_records }}</div>
+                        <div class="stat-label">Active Records</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions-section">
+                <h2>Workflow <span class="highlight">Shortcuts</span></h2>
+                <div class="workflow-grid">
+                    <a href="/assistant/patients" class="workflow-card">
+                        <div class="wf-icon">🗂️</div>
+                        <div class="wf-content">
+                            <h3>Patient Directory</h3>
+                            <p>Verify insurance and intake details.</p>
+                        </div>
+                        <span class="wf-arrow">→</span>
+                    </a>
+                    <a href="/assistant/appointments" class="workflow-card active-wf">
+                        <div class="wf-icon">🕒</div>
+                        <div class="wf-content">
+                            <h3>Manage Schedule</h3>
+                            <p>Approve or reschedule pending visits.</p>
+                        </div>
+                        <span class="wf-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'long', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('currentDateTime').textContent = now.toLocaleDateString('en-US', options);
+        }
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+</html>

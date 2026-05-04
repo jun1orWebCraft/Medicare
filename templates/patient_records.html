@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Vault | MediCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dashboard-page patient-theme">
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='logo-white.svg') }}" alt="MediCare" class="nav-logo">
+                    <span>MediCare</span>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+
+                <li class="nav-item active"><a href="/patient/dashboard"><span class="nav-icon">📊</span><span>Dashboard</span></a></li>
+
+                <li class="nav-item"><a href="/patient/records"><span class="nav-icon">📄</span><span>My Records</span></a></li>
+
+                <li class="nav-item"><a href="/patient/appointments"><span class="nav-icon">📅</span><span>My Appointments</span></a></li>
+
+                <li class="nav-item"><a href="/patient/appointments/book"><span class="nav-icon">➕</span><span>Book Appointment</span></a></li>
+            <div class="sidebar-footer">
+                <div class="user-card-glass">
+                    <div class="user-avatar">P</div>
+                    <div class="user-meta">
+                        <p class="u-name">Patient</p>
+                        <span class="u-status">Verified Account</span>
+                    </div>
+                </div>
+                <a href="/logout" class="btn-logout-glass">Sign Out</a>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="header-content">
+                    <h1>Medical <span class="highlight">Vault</span></h1>
+                    <p>Your encrypted history and clinical documentation.</p>
+                </div>
+                <div class="search-vault">
+                    <input type="text" placeholder="Search diagnosis or doctor...">
+                </div>
+            </header>
+
+            <div class="records-timeline">
+                {% for record in records %}
+                <div class="timeline-item">
+                    <div class="timeline-date-marker">
+                        <div class="glass-date">
+                            <span class="year">{{ record.created_at.strftime('%Y') if record.created_at else 'N/A' }}</span>
+                            <span class="day">{{ record.created_at.strftime('%b %d') if record.created_at else '' }}</span>
+                        </div>
+                    </div>
+
+                    <div class="record-card-modern">
+                        <div class="card-header-flex">
+                            <div class="doctor-info">
+                                <div class="dr-pfp-glass">🩺</div>
+                                <div>
+                                    <h3>Dr. {{ record.doctor_name }}</h3>
+                                    <span class="spec-tag">{{ record.specialization }}</span>
+                                </div>
+                            </div>
+                            <button class="btn-download-record">Download PDF</button>
+                        </div>
+
+                        <div class="record-body">
+                            <div class="data-block">
+                                <label>Clinical Diagnosis</label>
+                                <p class="diagnosis-text">{{ record.diagnosis }}</p>
+                            </div>
+                            
+                            <div class="data-block">
+                                <label>Prescribed Treatment</label>
+                                <p class="prescription-text">{{ record.prescription }}</p>
+                            </div>
+
+                            {% if record.notes %}
+                            <div class="data-block notes-block">
+                                <label>Doctor's Clinical Notes</label>
+                                <p>{{ record.notes }}</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+</body>
+</html>

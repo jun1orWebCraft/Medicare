@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Registration - MediCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="register-page">
+    <div class="auth-wrapper split-screen">
+        <div class="brand-side register-gradient">
+            <div class="brand-content">
+                <div class="brand-icon">✨</div>
+                <h1>Join<br><span>MediCare</span></h1>
+                <p>Create your patient account and take control of your health journey.</p>
+                <div class="benefits-list">
+                    <div class="benefit">✓ Access medical records online</div>
+                    <div class="benefit">✓ Book appointments easily</div>
+                    <div class="benefit">✓ Receive digital prescriptions</div>
+                    <div class="benefit">✓ Track your health history</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-side">
+            <div class="auth-form-container">
+                <div class="form-header">
+                    <h2>Patient Registration</h2>
+                    <p>Create your free account</p>
+                </div>
+                {% if error %}
+                <div class="alert alert-error">{{ error }}</div>
+                {% endif %}
+                <form method="POST" class="auth-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" name="name" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="email" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" name="password" placeholder="••••••••" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" name="confirm_password" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="number" name="age" placeholder="25" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Gender</label>
+                            <select name="gender" required>
+                                <option value="">Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone" placeholder="+1 234 567 8900" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea name="address" rows="2" placeholder="Your full address" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Create Account</button>
+                </form>
+                <div class="form-footer">
+                    <p>Already have an account? <a href="/login/patient">Login here</a></p>
+                    <a href="/">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

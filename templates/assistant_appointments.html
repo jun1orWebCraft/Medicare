@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Schedule | MediCare Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="dashboard-page assistant-theme">
+    <div class="dashboard-container">
+        <nav class="sidebar assistant-sidebar">
+            <div class="sidebar-header">
+                <div class="logo">🏥 MediCare <small>Ops</small></div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="nav-item"><a href="/assistant/dashboard"><div class="nav-glass-sticker">📊</div><span>Ops Center</span></a></li>
+                <li class="nav-item"><a href="/assistant/patients"><div class="nav-glass-sticker">👥</div><span>Patient Intake</span></a></li>
+                <li class="nav-item active"><a href="/assistant/appointments"><div class="nav-glass-sticker">📅</div><span>Master Schedule</span></a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-card-glass assistant-card">
+                    <div class="user-avatar assistant-avatar">A</div>
+                    <div class="user-meta">
+                        <p class="u-name">Coordinator</p>
+                        <span class="u-status">Front Desk Active</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="header-content">
+                    <h1>Clinic <span class="highlight">Flow</span></h1>
+                    <p>Monitor and manage global appointment statuses.</p>
+                </div>
+                
+                <div class="segmented-control-glass">
+                    <button onclick="filterStatus('all')" class="seg-btn active" data-filter="all">All Sessions</button>
+                    <button onclick="filterStatus('pending')" class="seg-btn" data-filter="pending">Pending</button>
+                    <button onclick="filterStatus('approved')" class="seg-btn" data-filter="approved">Approved</button>
+                    <button onclick="filterStatus('completed')" class="seg-btn" data-filter="completed">Finalized</button>
+                    <button onclick="filterStatus('rejected')" class="seg-btn" data-filter="rejected">Canceled</button>
+                </div>
+            </header>
+
+            <div class="content-card-glass">
+                <div class="table-responsive">
+                    <table class="pro-data-table" id="appointmentsTable">
+                        <thead>
+                            <tr>
+                                <th>Patient Participant</th>
+                                <th>Assigned Professional</th>
+                                <th>Schedule</th>
+                                <th>Clinical Context</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for appt in appointments %}
+                            <tr class="glass-row" data-status="{{ appt.status }}">
+                                <td>
+                                    <div class="participant-cell">
+                                        <div class="u-avatar-sm patient-bg">{{ appt.patient_name[0] }}</div>
+                                        <span class="p-name-bold">{{ appt.patient_name }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="professional-cell">
+                                        <span class="dr-prefix">Dr.</span>
+                                        <span class="dr-name">{{ appt.doctor_name }}</span>
+                                        <span class="dr-spec">{{ appt.specialization }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="time-block">
+                                        <span class="d-text">{{ appt.appointment_date }}</span>
+                                        <span class="t-text">{{ appt.appointment_time }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="reason-snippet">{{ appt.reason or 'Routine Follow-up' }}</p>
+                                </td>
+                                <td>
+                                    <span class="status-pill pill-{{ appt.status }}">
+                                        {{ appt.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function filterStatus(status) {
+            const rows = document.querySelectorAll('#appointmentsTable tbody tr');
+            const buttons = document.querySelectorAll('.seg-btn');
+            
+            rows.forEach(row => {
+                if (status === 'all' || row.dataset.status === status) {
+                    row.style.display = '';
+                    row.style.animation = 'fadeIn 0.4s ease forwards';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            buttons.forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-filter') === status);
+            });
+        }
+    </script>
+</body>
+</html>
